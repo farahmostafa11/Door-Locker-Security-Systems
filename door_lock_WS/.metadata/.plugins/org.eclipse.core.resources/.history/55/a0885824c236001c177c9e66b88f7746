@@ -1,0 +1,123 @@
+/*
+ * timers.c
+ *
+ *  Created on: Oct 26, 2021
+ *      Author: farah
+ */
+
+#include"timers.h"
+#include <avr/io.h>
+#include <avr/interrupt.h>
+/* Global variables to hold the address of the call back function in the application */
+static volatile void (*g_callBackPtr)(void) = NULL_PTR;
+
+/*******************************************************************************
+ *                       Interrupt Service Routines                            *
+ *******************************************************************************/
+ISR(TIMER0_COMP_vect)
+{
+	if(g_callBackPtr != NULL_PTR)
+	{
+		/* Call the Call Back function in the application after the edge is detected */
+		(*g_callBackPtr)(); /* another method to call the function using pointer to function g_callBackPtr(); */
+	}
+}
+
+ISR(TIMER0_OVF_vect){
+	if(g_callBackPtr != NULL_PTR)
+		{
+			/* Call the Call Back function in the application after the edge is detected */
+			(*g_callBackPtr)(); /* another method to call the function using pointer to function g_callBackPtr(); */
+		}
+}
+
+ISR(TIMER1_COMPA_vect)
+{
+	if(g_callBackPtr != NULL_PTR)
+	{
+		/* Call the Call Back function in the application after the edge is detected */
+		(*g_callBackPtr)(); /* another method to call the function using pointer to function g_callBackPtr(); */
+	}
+}
+
+ISR(TIMER1_COMPA_vect)
+{
+	if(g_callBackPtr != NULL_PTR)
+	{
+		/* Call the Call Back function in the application after the edge is detected */
+		(*g_callBackPtr)(); /* another method to call the function using pointer to function g_callBackPtr(); */
+	}
+}
+
+ISR(TIMER1_OVF_vect){
+	if(g_callBackPtr != NULL_PTR)
+		{
+			/* Call the Call Back function in the application after the edge is detected */
+			(*g_callBackPtr)(); /* another method to call the function using pointer to function g_callBackPtr(); */
+		}
+}
+
+ISR(TIMER2_COMP_vect)
+{
+	if(g_callBackPtr != NULL_PTR)
+	{
+		/* Call the Call Back function in the application after the edge is detected */
+		(*g_callBackPtr)(); /* another method to call the function using pointer to function g_callBackPtr(); */
+	}
+}
+
+ISR(TIMER5_OVF_vect){
+	if(g_callBackPtr != NULL_PTR)
+		{
+			/* Call the Call Back function in the application after the edge is detected */
+			(*g_callBackPtr)(); /* another method to call the function using pointer to function g_callBackPtr(); */
+		}
+}
+/*******************************************************************************
+ *                      Functions Definitions                                  *
+ *******************************************************************************/
+
+/*
+ * Description : Function to initialize the Timer driver
+ *  1. Select the required Timer (0,1 or 2)
+ *  2. Set the required mode (Normal-CTC)
+ * 	3. Set the required clock prescaler.
+ * 	4. Set the required initial value
+ * 	5. Set the required compare value (in case of CTC mode)
+ */
+void Timer_init(const Timers_ConfigType * Config_PTR){
+	if(Config_PTR->timer_id==0){
+		OCR0  = Config_PTR->COMP_value; // Set Compare Value in case of compare mode
+		TCNT0 = Config_PTR->initial_value; // Set Timer initial value to 0
+		if(Config_PTR->timer_mode==NORMAL){
+			TIMSK = (TIMSK&0XFC) | (0X01 & 0X03); // Enable Timer0 Overflow Interrupt
+		}
+		else{
+			TIMSK = (TIMSK&0XFC) | (Config_PTR->timer_mode & 0X03); // Enable Timer0 Compare match Interrupt
+		}
+		/* configure the timer
+		 * 1. Non PWM mode FOC0=1
+		 * 2. Normal Mode WGM01=0 & WGM00=0
+		 * 3. Normal Mode COM00=0 & COM01=0
+		 * 4. clock = F_CPU/256 CS00=0 CS01=0 CS02=1
+		 */
+		TCCR0 = (1<<FOC0);
+		TCCR0 = (TCCR0 & 0XB7) | (Config_PTR->timer_mode & 0X48);
+		TCCR0 = (TCCR0 & 0XF8) | (Config_PTR->timer_prescaler & 0X07); //Setting the prescaler
+	}
+}
+
+/*
+ * Description: Function to set the Call Back function address.
+ */
+void Timer_setCallBack(void(*a_ptr)(void)){
+	g_callBackPtr=a_ptr;
+}
+
+
+void Timer_DeInit(const Timer_ID timer_num){
+	if(timer_num==TIMER_0){
+		TCCR0=0;
+		TIMSK=0;	//still for timer 1,2
+	}
+}

@@ -1,0 +1,9 @@
+/*
+ * buzzer.c
+ *
+ *  Created on: Oct 29, 2021
+ *      Author: farah
+ */
+
+#include"buzzer.h"
+#include"gpio.h"

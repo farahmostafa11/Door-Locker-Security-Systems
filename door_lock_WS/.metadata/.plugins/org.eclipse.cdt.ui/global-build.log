@@ -1,0 +1,233 @@
+02:46:31 **** Incremental Build of configuration Debug for project door_lock_project_MC2 ****
+make all 
+Building file: ../door_lock_project_MC2.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega16 -DF_CPU=1000000UL -MMD -MP -MF"door_lock_project_MC2.d" -MT"door_lock_project_MC2.o" -c -o "door_lock_project_MC2.o" "../door_lock_project_MC2.c"
+In file included from ../door_lock_project_MC2.c:14:
+c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h:90:3: warning: #warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+Finished building: ../door_lock_project_MC2.c
+ 
+Building target: door_lock_project_MC2.elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,door_lock_project_MC2.map -mmcu=atmega16 -o "door_lock_project_MC2.elf"  ./DC_motor.o ./PWM_TIMER0.o ./buzzer.o ./door_lock_project_MC2.o ./external_eeprom.o ./gpio.o ./timers.o ./twi.o ./uart.o   
+Finished building target: door_lock_project_MC2.elf
+ 
+Invoking: AVR Create Extended Listing
+avr-objdump -h -S door_lock_project_MC2.elf  >"door_lock_project_MC2.lss"
+Finished building: door_lock_project_MC2.lss
+ 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega16 door_lock_project_MC2.elf
+AVR Memory Usage
+----------------
+Device: atmega16
+
+Program:    9646 bytes (58.9% Full)
+(.text + .data + .bootloader)
+
+Data:        307 bytes (30.0% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+02:46:37 **** Incremental Build of configuration Debug for project door_lock_project ****
+make all 
+Building file: ../door_lock_MC1.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega16 -DF_CPU=1000000UL -MMD -MP -MF"door_lock_MC1.d" -MT"door_lock_MC1.o" -c -o "door_lock_MC1.o" "../door_lock_MC1.c"
+In file included from ../door_lock_MC1.c:12:
+c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h:90:3: warning: #warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+Finished building: ../door_lock_MC1.c
+ 
+Building target: door_lock_project.elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,door_lock_project.map -mmcu=atmega16 -o "door_lock_project.elf"  ./door_lock_MC1.o ./gpio.o ./keypad.o ./lcd.o ./timers.o ./uart.o   
+Finished building target: door_lock_project.elf
+ 
+Invoking: AVR Create Extended Listing
+avr-objdump -h -S door_lock_project.elf  >"door_lock_project.lss"
+Finished building: door_lock_project.lss
+ 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega16 door_lock_project.elf
+AVR Memory Usage
+----------------
+Device: atmega16
+
+Program:   11342 bytes (69.2% Full)
+(.text + .data + .bootloader)
+
+Data:        142 bytes (13.9% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+02:46:38 **** Incremental Build of configuration Debug for project door_lock_project_MC2 ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega16 door_lock_project_MC2.elf
+AVR Memory Usage
+----------------
+Device: atmega16
+
+Program:    9646 bytes (58.9% Full)
+(.text + .data + .bootloader)
+
+Data:        307 bytes (30.0% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+03:16:35 **** Incremental Build of configuration Debug for project door_lock_project ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega16 door_lock_project.elf
+AVR Memory Usage
+----------------
+Device: atmega16
+
+Program:   11342 bytes (69.2% Full)
+(.text + .data + .bootloader)
+
+Data:        142 bytes (13.9% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+03:16:36 **** Incremental Build of configuration Debug for project door_lock_project_MC2 ****
+make all 
+Building file: ../door_lock_project_MC2.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega16 -DF_CPU=1000000UL -MMD -MP -MF"door_lock_project_MC2.d" -MT"door_lock_project_MC2.o" -c -o "door_lock_project_MC2.o" "../door_lock_project_MC2.c"
+In file included from ../door_lock_project_MC2.c:14:
+c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h:90:3: warning: #warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+Finished building: ../door_lock_project_MC2.c
+ 
+Building target: door_lock_project_MC2.elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,door_lock_project_MC2.map -mmcu=atmega16 -o "door_lock_project_MC2.elf"  ./DC_motor.o ./PWM_TIMER0.o ./buzzer.o ./door_lock_project_MC2.o ./external_eeprom.o ./gpio.o ./timers.o ./twi.o ./uart.o   
+Finished building target: door_lock_project_MC2.elf
+ 
+Invoking: AVR Create Extended Listing
+avr-objdump -h -S door_lock_project_MC2.elf  >"door_lock_project_MC2.lss"
+Finished building: door_lock_project_MC2.lss
+ 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega16 door_lock_project_MC2.elf
+AVR Memory Usage
+----------------
+Device: atmega16
+
+Program:    9646 bytes (58.9% Full)
+(.text + .data + .bootloader)
+
+Data:        307 bytes (30.0% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+03:27:32 **** Incremental Build of configuration Debug for project door_lock_project ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega16 door_lock_project.elf
+AVR Memory Usage
+----------------
+Device: atmega16
+
+Program:   11342 bytes (69.2% Full)
+(.text + .data + .bootloader)
+
+Data:        142 bytes (13.9% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+03:27:32 **** Incremental Build of configuration Debug for project door_lock_project_MC2 ****
+make all 
+Building file: ../door_lock_project_MC2.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega16 -DF_CPU=1000000UL -MMD -MP -MF"door_lock_project_MC2.d" -MT"door_lock_project_MC2.o" -c -o "door_lock_project_MC2.o" "../door_lock_project_MC2.c"
+In file included from ../door_lock_project_MC2.c:14:
+c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h:90:3: warning: #warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+Finished building: ../door_lock_project_MC2.c
+ 
+Building target: door_lock_project_MC2.elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,door_lock_project_MC2.map -mmcu=atmega16 -o "door_lock_project_MC2.elf"  ./DC_motor.o ./PWM_TIMER0.o ./buzzer.o ./door_lock_project_MC2.o ./external_eeprom.o ./gpio.o ./timers.o ./twi.o ./uart.o   
+Finished building target: door_lock_project_MC2.elf
+ 
+Invoking: AVR Create Extended Listing
+avr-objdump -h -S door_lock_project_MC2.elf  >"door_lock_project_MC2.lss"
+Finished building: door_lock_project_MC2.lss
+ 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega16 door_lock_project_MC2.elf
+AVR Memory Usage
+----------------
+Device: atmega16
+
+Program:    9646 bytes (58.9% Full)
+(.text + .data + .bootloader)
+
+Data:        307 bytes (30.0% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+03:33:49 **** Incremental Build of configuration Debug for project door_lock_project ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega16 door_lock_project.elf
+AVR Memory Usage
+----------------
+Device: atmega16
+
+Program:   11342 bytes (69.2% Full)
+(.text + .data + .bootloader)
+
+Data:        142 bytes (13.9% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+03:33:50 **** Incremental Build of configuration Debug for project door_lock_project_MC2 ****
+make all 
+Building file: ../door_lock_project_MC2.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega16 -DF_CPU=1000000UL -MMD -MP -MF"door_lock_project_MC2.d" -MT"door_lock_project_MC2.o" -c -o "door_lock_project_MC2.o" "../door_lock_project_MC2.c"
+In file included from ../door_lock_project_MC2.c:14:
+c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h:90:3: warning: #warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+Finished building: ../door_lock_project_MC2.c
+ 
+Building target: door_lock_project_MC2.elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,door_lock_project_MC2.map -mmcu=atmega16 -o "door_lock_project_MC2.elf"  ./DC_motor.o ./PWM_TIMER0.o ./buzzer.o ./door_lock_project_MC2.o ./external_eeprom.o ./gpio.o ./timers.o ./twi.o ./uart.o   
+Finished building target: door_lock_project_MC2.elf
+ 
+Invoking: AVR Create Extended Listing
+avr-objdump -h -S door_lock_project_MC2.elf  >"door_lock_project_MC2.lss"
+Finished building: door_lock_project_MC2.lss
+ 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega16 door_lock_project_MC2.elf
+AVR Memory Usage
+----------------
+Device: atmega16
+
+Program:    9646 bytes (58.9% Full)
+(.text + .data + .bootloader)
+
+Data:        307 bytes (30.0% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 

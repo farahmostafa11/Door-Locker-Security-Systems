@@ -1,0 +1,84 @@
+/*
+ * door_lock_MC1.c
+ *
+ *  Created on: Oct 29, 2021
+ *      Author: farah
+ */
+#include"lcd.h"
+#include"keypad.h"
+#include "uart.h"
+#include"timers.h"
+#include <util/delay.h> /* For the delay functions */
+
+UART_ConfigType UARTCONFIG={DISABLED,ONE_BIT,BIT_8,9600};
+uint8 password_check=0,is_right=0,count=0,main_menu_choice;
+uint8 password_input[5];
+uint8 change_password=0;
+void LCD_printing(const char *Str){
+	LCD_sendCommand(LCD_CLEAR_COMMAND);//clear the screen to start new printing
+	LCD_moveCursor(0,0);
+	LCD_displayString(Str);
+	LCD_moveCursor(1,0);
+	for(int i=0;i<5;i++){
+		password_input[i]=KEYPAD_getPressedKey();
+		LCD_displayCharacter('*');
+		_delay_ms(2000);
+	}
+	while(KEYPAD_getPressedKey()!='*');
+	_delay_ms(2000); /* Press time */
+}
+void send_password(){
+	for(int i=0;i<5;i++){
+		UART_sendByte(password_input[i]);
+	}
+}
+int main(void){
+	LCD_init();
+	UART_init(&UARTCONFIG);
+	while(1){
+		change_password=0;
+		password_check=0;
+		is_right=0;
+		change_password=0;
+		LCD_printing("Please enter Password:");
+		send_password();
+		LCD_printing("Please re_enter Password:");
+		send_password();
+		password_check=UART_recieveByte();//-->R1
+		while(password_check==0 && change_password==0){
+			LCD_sendCommand(LCD_CLEAR_COMMAND);//clear the screen to start new printing
+			LCD_moveCursor(0,0);
+			LCD_displayString("+: Open Door");
+			LCD_moveCursor(1,0);
+			LCD_displayString("-: Change Password");
+			main_menu_choice=KEYPAD_getPressedKey();
+			_delay_ms(2000); /* Press time */
+			UART_sendByte(main_menu_choice);//-->S3
+			if(main_menu_choice=='+'){
+				LCD_printing("Please enter Password:");
+				send_password();
+				LCD_sendCommand(LCD_CLEAR_COMMAND);
+				LCD_moveCursor(0,0);
+				LCD_displayString("welcome :)");
+				is_right=UART_recieveByte();//-->R2
+				while(is_right=='w'){
+					LCD_printing("Please enter Password:");
+					send_password();
+					is_right=UART_recieveByte();//-->R3
+				}
+				if(is_right!='r'){
+					LCD_sendCommand(LCD_CLEAR_COMMAND);//clear the screen to start new printing
+					LCD_moveCursor(0,0);
+					LCD_displayString("HARD LUCK:)");
+					_delay_ms(10000); /* Press time */
+				}
+				else{
+
+				}
+			}
+			else{
+				change_password=1;
+			}
+		}
+	}
+}

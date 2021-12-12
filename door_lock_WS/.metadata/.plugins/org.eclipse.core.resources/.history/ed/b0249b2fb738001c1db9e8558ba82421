@@ -1,0 +1,20 @@
+/*
+ * buzzer.h
+ *
+ *  Created on: Oct 29, 2021
+ *      Author: farah
+ */
+
+#ifndef BUZZER_H_
+#define BUZZER_H_
+#include"std_types.h"
+#include"gpio.h"
+
+/*******************************************************************************
+ *                                Definitions                                  *
+ *******************************************************************************/
+#define BUZZER_PORT_ID    0
+#define BUZZER_PIN_ID     0
+
+
+#endif /* BUZZER_H_ */

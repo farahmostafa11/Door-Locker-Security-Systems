@@ -1,0 +1,115 @@
+/*
+ * door_lock_MC1.c
+ *
+ *  Created on: Oct 29, 2021
+ *      Author: farah
+ */
+#include"lcd.h"
+#include"keypad.h"
+#include "uart.h"
+#include"timers.h"
+#include <util/delay.h> /* For the delay functions */
+
+UART_ConfigType UARTCONFIG={DISABLED,ONE_BIT,BIT_8,9600};
+uint8 password_check=0,is_right=0,count=0,main_menu_choice;
+int password_input=0;
+uint8 change_password=0;
+uint8 entered_num=0;	//used to check if the user requested to reset a new password
+uint8 count_ha4elo=0;
+void LCD_printing(const char *Str){
+	LCD_sendCommand(LCD_CLEAR_COMMAND);//clear the screen to start new printing
+	LCD_moveCursor(0,0);
+	LCD_displayString(Str);
+	LCD_moveCursor(1,0);
+	while(count<5){
+		count++;
+		password_input*=10;
+		entered_num=KEYPAD_getPressedKey();
+		password_input+=entered_num;
+		LCD_displayCharacter('*');
+		_delay_ms(2000); /* Press time */
+	}
+	count=0;
+	while(KEYPAD_getPressedKey()!='*');
+	_delay_ms(2000); /* Press time */
+}
+int main(void){
+	LCD_init();
+	UART_init(&UARTCONFIG);
+	while(1){
+		change_password=0;
+		entered_num=0;
+		count=0;
+		password_check=0;
+		is_right=0;
+		change_password=0;
+		entered_num=0;
+		password_input=0;
+		LCD_printing("Please enter Password:");
+		while(count_ha4elo<5){
+			count_ha4elo++;
+			UART_sendByte(password_input%10);//-->S2
+			password_input/=10;
+		}
+		entered_num=0;
+		password_input=0;
+		count_ha4elo=0;
+		LCD_printing("Please re_enter Password:");
+		while(count_ha4elo<5){
+			count_ha4elo++;
+			UART_sendByte(password_input%10);//-->S2
+			password_input/=10;
+		}
+		count_ha4elo=0;
+		password_check=UART_recieveByte();//-->R1
+		while(password_check==0 && change_password==0){
+			LCD_sendCommand(LCD_CLEAR_COMMAND);//clear the screen to start new printing
+			LCD_moveCursor(0,0);
+			LCD_displayString("+: Open Door");
+			LCD_moveCursor(1,0);
+			LCD_displayString("-: Change Password");
+			main_menu_choice=KEYPAD_getPressedKey();
+			_delay_ms(2000); /* Press time */
+			UART_sendByte(main_menu_choice);//-->S3
+			if(main_menu_choice=='+'){
+				entered_num=0;
+				password_input=0;
+				count_ha4elo=0;
+				LCD_printing("Please enter Password:");
+				while(count_ha4elo<5){
+					count_ha4elo++;
+					UART_sendByte(password_input%10);//-->S2
+					password_input/=10;
+				}
+				count_ha4elo=0;
+				is_right=UART_recieveByte();//-->R2
+				while(is_right=='w'){
+					entered_num=0;
+					password_input=0;
+					LCD_printing("Please enter Password:");
+					while(count_ha4elo<5){
+						count_ha4elo++;
+						UART_sendByte(password_input%10);//-->S2
+						password_input/=10;
+					}
+					count_ha4elo=0;
+					is_right=UART_recieveByte();//-->R3
+				}
+				if(is_right!='r'){
+					LCD_sendCommand(LCD_CLEAR_COMMAND);//clear the screen to start new printing
+					LCD_moveCursor(0,0);
+					LCD_displayString("HARD LUCK:)");
+					_delay_ms(10000); /* Press time */
+				}
+				else{
+					LCD_sendCommand(LCD_CLEAR_COMMAND);
+					LCD_moveCursor(0,0);
+					LCD_displayString("welcome :)");
+				}
+			}
+			else{
+				change_password=1;
+			}
+		}
+	}
+}

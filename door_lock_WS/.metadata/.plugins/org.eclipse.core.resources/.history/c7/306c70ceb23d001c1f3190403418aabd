@@ -1,0 +1,148 @@
+/*
+ * door_lock_project_MC2.c
+ *
+ *  Created on: Oct 29, 2021
+ *      Author: farah
+ */
+#include<avr/io.h>
+#include"DC_motor.h"
+#include"external_eeprom.h"
+#include"buzzer.h"
+#include"uart.h"
+#include"timers.h"
+#include"twi.h"
+#include <util/delay.h> /* For the delay functions */
+uint8 is_moving=0,delay_out=0;
+uint8 motor_speed=100;
+Timers_ConfigType timer_config={TIMER_1,0,65535,CTC,F_CPU_1024};///------------>
+TWI_ConfigType twi_config={0b00000010,0x02};
+void open_door_fn(void){
+	DcMotor_Rotate(CW,motor_speed);
+	Timer_init(&timer_config);
+	while(delay_out==0);
+	delay_out=0;
+	timer_config.COMP_value=51652;
+	Timer_init(&timer_config);
+	while(delay_out==0);
+	delay_out=0;
+	timer_config.COMP_value=23437;
+	DcMotor_Rotate(STOP,motor_speed);
+	Timer_init(&timer_config);
+	while(delay_out==0);
+	delay_out=0;
+	timer_config.COMP_value=65535;
+	DcMotor_Rotate(ACW,motor_speed);
+	Timer_init(&timer_config);
+	while(delay_out==0);
+	delay_out=0;
+	timer_config.COMP_value=51652;
+	Timer_init(&timer_config);
+	while(delay_out==0);
+	delay_out=0;
+	DcMotor_Rotate(STOP,motor_speed);
+	Timer_DeInit(TIMER_1);
+	timer_config.COMP_value=65535;
+}
+void timer_adjust(void){
+	delay_out=1;
+}
+int main(void){
+	static uint8 counter=0;
+	uint8 change_pass=0;
+	Timer_setCallBack(timer_adjust,TIMER_1);
+	UART_ConfigType uart_config={DISABLED,ONE_BIT,BIT_8,9600};
+	uint16 mem_loc=0X000000A0;
+	uint8 choice;
+	uint8 first_password[5];
+	uint8 password_from_eeprom[5];
+	uint8 password_eeprom=0;
+	uint8 password_check=1,password_recheck=1;
+	// Enable global interrupts in MC.
+	SREG  |= (1<<7);
+	TWI_init(& twi_config);
+	buzzer_init();
+	UART_init(& uart_config);
+	DcMotor_Init();
+	while(1){
+		counter=0;
+		password_check=1;
+		password_recheck=1;
+		for(int i=0;i<5;i++){
+			first_password[i]=UART_recieveByte();
+		}
+		for(int i=0;i<5;i++){
+			if(first_password[i]!=UART_recieveByte()){
+				password_check=0;
+			}
+		}
+		if(password_check==1){
+			UART_sendByte(0);
+			for(int i=0;i<5;i++){
+				EEPROM_writeByte(mem_loc+i,first_password[i]);
+				_delay_ms(100);
+			}
+			while(change_pass==0){
+				choice=UART_recieveByte();
+				if(choice=='+'){
+					counter=0;
+					counter++;
+					password_recheck=1;
+					for(int i=0;i<5;i++){
+						first_password[i]=UART_recieveByte();
+						EEPROM_readByte(mem_loc+i,&password_eeprom);
+						password_from_eeprom[i]=password_eeprom;
+						if(first_password[i]!=password_eeprom){
+							password_recheck=0;
+						}
+						else{
+
+						}
+
+					}
+					while(password_recheck==0 && counter!=3){
+						UART_sendByte('w');//-->S2
+						counter++;
+						password_recheck=1;
+						for(int i=0;i<5;i++){
+							if(password_from_eeprom[i]!=UART_recieveByte()){
+								password_recheck=0;
+							}
+						}
+					}
+					if(counter!=3){
+						open_door_fn();
+						UART_sendByte('r');
+					}
+					else{
+						UART_sendByte('x');
+						buzzer_on();
+						timer_config.COMP_value=65535;
+						Timer_init(&timer_config);
+						while(delay_out==0);
+						delay_out=0;
+						timer_config.COMP_value=51652;
+						Timer_init(&timer_config);
+						while(delay_out==0);
+						delay_out=0;
+						timer_config.COMP_value=65535;
+						Timer_init(&timer_config);
+						while(delay_out==0);
+						delay_out=0;
+						timer_config.COMP_value=51652;
+						Timer_init(&timer_config);
+						while(delay_out==0);
+						delay_out=0;
+						buzzer_off();
+						Timer_DeInit(TIMER_1);
+					}
+				}
+				else{
+					change_pass=1;
+				}
+			}
+		}
+		else{
+			UART_sendByte(1);
+		}
+	}
+}

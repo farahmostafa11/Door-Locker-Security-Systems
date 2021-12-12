@@ -1,0 +1,36 @@
+/*
+ * timers.h
+ *
+ *  Created on: Oct 26, 2021
+ *      Author: farah Mostafa
+ */
+
+#ifndef TIMERS_H_
+#define TIMERS_H_
+
+#include "std_types.h"
+
+/*******************************************************************************
+ *                                Definitions                                  *
+ *******************************************************************************/
+
+
+typedef enum
+{
+	NO_CLK,CLK,F_CPU_8,F_CPU_64,F_CPU_256,F_CPU_1024,EXTERNAL_CLK_FALLING,EXTERNAL_CLK_RISING
+}Timer0_Prescaler;
+
+typedef enum
+{
+	NORMAL,CTC=0X02
+}Timer0_Mode;
+
+
+typedef struct{
+	uint16 initial_value;
+	uint16 COMP_value;
+	Timer0_Mode timer_mode;
+	Timer0_Prescaler timer_prescaler;
+}Timers_ConfigType;
+
+#endif /* TIMERS_H_ */
